@@ -37,6 +37,7 @@ TMDB_API_KEY = env('TMDB_API_KEY')
 # Application definition
 
 INSTALLED_APPS = [
+    'django_extensions',
     'routes.apps.RoutesConfig',
     'django.contrib.admin',
     'django.contrib.auth',

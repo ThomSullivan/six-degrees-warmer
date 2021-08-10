@@ -1,7 +1,15 @@
 {% extends "bootstrap.html" %}
 {% block content %}
-<p>
-{{ name }}
 
-</p>
+    {% for degree in degrees %}
+    <h1>{{ degree.0 }}</h1>
+    <img src="https://image.tmdb.org/t/p/w500{{ degree.1 }}" alt="{{ degree.0 }}">
+    <h1>was in {{ degree.2 }}</h1>
+    <img src="https://image.tmdb.org/t/p/w500{{ degree.3 }}" alt="{{ degree.2 }}">
+    {% endfor %}
+
+
+<h1>with Kevin Bacon!</h1>
+<img src="https://image.tmdb.org/t/p/w500/rjX2Oz3tCZMfSwOoIAyEhdtXnTE.jpg">
+<p><a href="{% url 'routes:index' %}">Search again</a></p>
 {% endblock %}
