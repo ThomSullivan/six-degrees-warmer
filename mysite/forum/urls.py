@@ -11,4 +11,8 @@ urlpatterns = [
         views.ArticleUpdateView.as_view(success_url=reverse_lazy('forum:all')), name='article_update'),
     path('article/<int:pk>/delete',
         views.ArticleDeleteView.as_view(success_url=reverse_lazy('forum:all')), name='article_delete'),
+        path('article/<int:pk>/comment',
+        views.CommentCreateView.as_view(), name='article_comment_create'),
+    path('comment/<int:pk>/delete',
+        views.CommentDeleteView.as_view(success_url=reverse_lazy('forum:all')), name='article_comment_delete'),
 ]

@@ -4,7 +4,7 @@
 
 <style>
     .img{
-        width:49%;
+        width:20%;
     }
 </style>
 <p>{% if user.is_authenticated %}
@@ -28,6 +28,8 @@
         <i class="fa fa-star-o fa-stack-1x"></i>
         </span>
         </a>
+        {% else %}
+        <a href='/accounts/login/?next={{ request.path }}'>Log in to</a>
         {% endif %} Like this route</p>
     {% for degree in degrees %}
     <p>{{ degree.0.name }} was in {{ degree.1.title }} with</p>
