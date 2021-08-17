@@ -1,0 +1,154 @@
+ <!DOCTYPE html>
+ {% load static %}
+{% load app_tags %}
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+    crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"
+    crossorigin="anonymous"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.navbar {
+  overflow: hidden;
+
+  background-color: #333;
+}
+
+.navbar a {
+  float: left;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.dropdown {
+  float: left;
+  overflow: hidden;
+  right : 0;
+}
+
+.dropdown .dropbtn {
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+  right : 0;
+
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: black;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  right : 0;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+  font-size:1em;
+
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+#grav {
+    width: auto;
+    height: 42px;
+  padding: 2px 5px 0px 0px;
+    border-radius:8px;
+}
+.logout {
+    display:block;
+
+  padding: 12px 16px;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  right : 0;
+  font-size:1em;
+}
+.logout:hover {
+    background-color: #ddd;
+}
+</style>
+<title>Six Degrees of Bacon</title>
+<link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="img/ico "/>
+</head>
+<body>
+
+
+
+
+<div class="navbar">
+  <a href='/'>Home</a>
+  <a href='/forum'>Forum</a>
+  {% if user.is_authenticated %}
+<div class="dropdown" style='float:right;'>
+  <button class="dropbtn">
+      {% if  user.socialaccount_set.all.0.get_avatar_url  %}
+     <img  id='grav' src="{{ user.socialaccount_set.all.0.get_avatar_url }}"/>
+     {% else%}
+     <img id='grav' src="{{ user|gravatar:60 }}"/>
+     {% endif %}
+  </button>
+  <div class="dropdown-content">
+     <a href='/forum'>Forum</a>
+    <form method='post' action='/accounts/logout/'>
+        {% csrf_token %}
+    <button type='submit' class='logout'>Logout</button>
+    </form>
+    {% else %}
+     <div class="dropdown" style='float:right;'>
+      <button class="dropbtn">Account</button>
+      <div class="dropdown-content">
+        <a href='/accounts/login/?next={{ request.path }}'>Login</a>
+      </div>
+    </div>
+    {% endif %}
+    <!--  <a href="#">Link 1</a> **/ -->
+  </div>
+</div>
+</div>
+
+
+
+
+
+{% block content %}
+
+
+{% endblock %}
+
+</body>
+</html>

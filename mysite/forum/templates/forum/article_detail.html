@@ -1,0 +1,32 @@
+{% extends "bootstrap.html" %}
+{% load app_tags %}
+{% load humanize %} <!-- https://docs.djangoproject.com/en/3.0/ref/contrib/humanize -->
+{% block content %}
+<span style="float: right;">
+
+{% if article.owner == user %}
+<a href="{% url 'forum:article_update' article.id %}"><i class="fa fa-pencil"></i></a>
+<a href="{% url 'forum:article_delete' article.id %}"><i class="fa fa-trash"></i></a>
+{% endif %}
+</span>
+<h1>{{ article.title }}</h1>
+<p>
+{% if  article.owner.socialaccount_set.all.0.get_avatar_url  %}
+     <img style='width:10%' id='grav' src="{{ article.owner.socialaccount_set.all.0.get_avatar_url }}"/>
+     {% else%}
+     <img  src="{{ article.owner|gravatar:60 }}"/>
+     {% endif %}
+
+({{ article.updated_at|naturaltime }}) by {{ article.owner }}
+
+
+</p>
+<p>
+{{ article.text }}
+</p>
+<p>
+</p>
+<p>
+<a href="{% url 'forum:all' %}">All articles</a>
+</p>
+{% endblock %}

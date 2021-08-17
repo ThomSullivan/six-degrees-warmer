@@ -1,15 +1,75 @@
 {% extends "bootstrap.html" %}
 {% block content %}
+{% load static %}
 
+<style>
+    .img{
+        width:49%;
+    }
+</style>
+<p>{% if user.is_authenticated %}
+        <!-- Two hrefs with two stacked icons each - one showing and one hidden -->
+        <a href="#" onclick=
+            "favPost('{% url 'routes:person_unfavorite' pk %}', {{ pk }} );return false;"
+            {% if pk not in favorites %} style="display: none;" {% endif %}
+            id="favorite_star_{{pk}}">
+        <span class="fa-stack" style="vertical-align: middle;">
+        <i class="fa fa-star fa-stack-1x" style="color: orange;"></i>
+        <i class="fa fa-star-o fa-stack-1x"></i>
+        </span>
+        </a>
+        <!-- the second href -->
+        <a href="#" onclick=
+             "favPost('{% url 'routes:person_favorite' pk %}', {{ pk }} );return false;"
+            {% if pk in favorites %} style="display: none;" {% endif %}
+            id="unfavorite_star_{{pk}}">
+        <span class="fa-stack" style="vertical-align: middle;">
+        <i class="fa fa-star fa-stack-1x" style="display: none; color: orange;"></i>
+        <i class="fa fa-star-o fa-stack-1x"></i>
+        </span>
+        </a>
+        {% endif %} Like this route</p>
     {% for degree in degrees %}
-    <h1>{{ degree.0 }}</h1>
-    <img src="https://image.tmdb.org/t/p/w500{{ degree.1 }}" alt="{{ degree.0 }}">
-    <h1>was in {{ degree.2 }}</h1>
-    <img src="https://image.tmdb.org/t/p/w500{{ degree.3 }}" alt="{{ degree.2 }}">
+    <p>{{ degree.0.name }} was in {{ degree.1.title }} with</p>
+    <a href='https://www.themoviedb.org/person/{{ degree.0.id }}'>
+        {% if  degree.0.profile_path  == None %}
+    <img class='img' src='{% static "img/person_placeholder.png" %}'>
+        {% else %}
+    <img class='img' src="https://image.tmdb.org/t/p/w500{{ degree.0.profile_path }}" alt="{{ degree.0.name }}">
+        {% endif %}
+    </a>
+    <a href='https://www.themoviedb.org/movie/{{ degree.1.id }}'>
+        {% if  degree.1.poster_path  == None %}
+    <img class='img' src='{% static "img/movie_placeholder.png" %}'>
+        {% else %}
+    <img class='img' src="https://image.tmdb.org/t/p/w500{{ degree.1.poster_path }}" alt="{{ degree.1.title }}">
+        {% endif %}
+
+    </a>
     {% endfor %}
 
 
-<h1>with Kevin Bacon!</h1>
-<img src="https://image.tmdb.org/t/p/w500/rjX2Oz3tCZMfSwOoIAyEhdtXnTE.jpg">
-<p><a href="{% url 'routes:index' %}">Search again</a></p>
+<h1>Kevin Bacon!</h1>
+<p>
+<img class ='img' src="https://image.tmdb.org/t/p/w500/rjX2Oz3tCZMfSwOoIAyEhdtXnTE.jpg">
+
+
+        Know of a shorter route? let everyone know over at the <a href={% url 'forum:all' %}> forum</a>
+<a href="{% url 'home:home' %}">Search again</a>
+        </p>
+
+
+
+<script>
+function favPost(url, person_id) {
+    console.log('Requesting JSON');
+    $.post(url, {},  function(rowz){
+        console.log(url, 'finished');
+        $("#unfavorite_star_"+person_id).toggle();
+        $("#favorite_star_"+person_id).toggle();
+    }).fail(function(xhr) {
+        alert('Url failed with '+xhr.status+' '+url);
+    });
+}
+</script>
 {% endblock %}

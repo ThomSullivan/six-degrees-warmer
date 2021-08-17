@@ -24,7 +24,12 @@ def run():
         p.save()
         m = Movie(title=row[2])
         m.save()
-        ns = Person.objects.get(name=row[1])
+        #p, created = Person.objects.get_or_create(name=row[0])
+        #m, created = Movie.objects.get_or_create(title=row[2])
+        try:
+            ns = Person.objects.get(name=row[1])
+        except:
+            ns = Person.objects.filter(name=row[1])[0]
         s = Step(person=p, movie=m, next_step=ns)
         s.save()
 
