@@ -1,0 +1,10 @@
+{% extends 'bootstrap.html' %}
+{% load static %}
+{% block content %}
+
+<h1>There are currently {{ total }} routes available for search</h1>
+<h2>The largest links to Kevin bacon are.</h2>
+{% for item in ten_list%}
+<p><a href='/routes/result/{{item.2}}'>{{ item.0 }}</a> links {{ item.3}} people from the previous degree.</p>
+{% endfor %}
+{% endblock %}

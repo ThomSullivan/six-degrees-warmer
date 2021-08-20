@@ -16,7 +16,7 @@
   <button class="primaryAction" type="submit">Sign In</button>
   <input type="hidden" name="next" value="{{ request.GET.next }}" />
 </form>
-<a class="button secondaryAction" href="/accounts/password/reset/">Forgot Password?</a>
+<!-- <a class="button secondaryAction" href="/accounts/password/reset/">Forgot Password?</a> -->
 <a href='/accounts/signup/'>Sign up for an account</a>
 <p><a href="{% provider_login_url 'google' %}"><img src={% static "img/btn_google_signin_dark_focus_web.png" %}></a></p>
 

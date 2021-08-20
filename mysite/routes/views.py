@@ -51,12 +51,16 @@ def search_pk(request):
     search = 'https://api.themoviedb.org/3/search/person?api_key={}&query={}'.format(TMDB_API_KEY, request.GET['search'])
     address = requests.get(search, params=request.GET)
     object = address.json()
-    person_id = object['results'][0]['id']
+    try:
+        person_id = object['results'][0]['id']
+    except:
+        return redirect('/')
     try:
         x = Person.objects.get(name=person_id)
     except:
         x = Person.objects.filter(name=person_id)[0]
     parameter = x.pk
+
     return redirect('/routes/result/' + str(parameter))
 
 from django.views.decorators.csrf import csrf_exempt

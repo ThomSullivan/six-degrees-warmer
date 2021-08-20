@@ -10,14 +10,14 @@
 {% endif %}
 </span>
 <h1>{{ article.title }}</h1>
-<p>
+<p><a href='/user/{{ article.owner.id }}'>
 {% if  article.owner.socialaccount_set.all.0.get_avatar_url  %}
      <img  id='grav' src="{{ article.owner.socialaccount_set.all.0.get_avatar_url }}"/>
     {% else%}
      <img  id='grav' src="{{ article.owner|gravatar:60 }}"/>
      {% endif %}
-
-({{ article.updated_at|naturaltime }}) by {{ article.owner }}
+</a>
+({{ article.updated_at|naturaltime }}) by {{ article.owner.first_name }}
 
 
 </p>
@@ -31,19 +31,26 @@
 {% load crispy_forms_tags %}
 <form method="post" action="{% url 'forum:article_comment_create' article.id %}">
     {% csrf_token %}
-    {{ comment_form|crispy }}
-<input type="submit" value="Submit">
+    {{ comment_form| crispy }}
+<input type="submit" value="Comment">
 
 </form>
 </p>
 {% endif %}
 {% for comment in comments %}
-<p> {{ comment.text }}
-({{ comment.updated_at|naturaltime }})
+<p><a href='/user/{{ comment.owner.id }}'>
+    {% if  comment.owner.socialaccount_set.all.0.get_avatar_url  %}
+         <img  id='grav' src="{{ comment.owner.socialaccount_set.all.0.get_avatar_url }}"/>
+        {% else%}
+         <img  id='grav' src="{{ comment.owner|gravatar:60 }}"/>
+     {% endif %}
+     </a>
+<sub>(by {{ comment.owner.first_name }} {{ comment.updated_at|naturaltime }})</sub>
 {% if user == comment.owner %}
 <a href="{% url 'forum:article_comment_delete' comment.id %}"><i class="fa fa-trash"></i></a>
 {% endif %}
 </p>
+        {{ comment.text }}
 {% endfor %}
 
 </p>

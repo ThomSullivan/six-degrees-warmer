@@ -113,6 +113,8 @@ body {
 <div class="navbar">
   <a href='/'>Home</a>
   <a href='/forum'>Forum</a>
+  <a href='/topten'>Top Ten</a>
+  <a href='/statistics'>Statistics</a>
   {% if user.is_authenticated %}
 <div class="dropdown" style='float:right;'>
   <button class="dropbtn">
@@ -123,6 +125,7 @@ body {
      {% endif %}
   </button>
   <div class="dropdown-content">
+     <a href='/user/{{user.id}}'>Profile</a>
      <a href='/forum'>Forum</a>
     <form method='post' action='/accounts/logout/'>
         {% csrf_token %}

@@ -1,0 +1,38 @@
+{% extends 'bootstrap.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .img{
+        width:25%;
+
+
+
+    }
+    .center {
+        position:relative;
+        left:30%;
+    }
+    .a {
+        font-size:2em;
+
+
+    }
+</style>
+<h1>Top Ten Most Favorited Routes</h1>
+
+
+{% for person in person_list %}
+<p >
+    <div class='center'>
+        {% if  person.0.profile_path  == None %}
+    <img class='img' src='{% static "img/person_placeholder.png" %}'>
+        {% else %}
+    <img class='img' src="https://image.tmdb.org/t/p/w500{{ person.0.profile_path }}" alt="{{ person.0.name }}">
+        {% endif %}
+        </div>
+       <div style='font-size:3em;'> {{person.2}}
+ <a  href='/routes/result/{{ person.1 }}'>{{ person.0.name }}</a>
+        </p></div>
+{% endfor %}
+{% endblock %}
+

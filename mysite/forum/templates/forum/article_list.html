@@ -1,6 +1,6 @@
 {% extends "bootstrap.html" %}
 {% block content %}
-<h1>Articles</h1>
+<h1>Discussions</h1>
 <p>
 {% if article_list %}
 <ul>
@@ -11,6 +11,7 @@
         (<a href="{% url 'forum:article_update' article.id %}">Edit</a> |
         <a href="{% url 'forum:article_delete' article.id %}">Delete</a>)
         {% endif %}
+        <sub>{{ article.comments.count }} comments</sub>
     </li>
   {% endfor %}
 </ul>
@@ -19,7 +20,7 @@
 {% endif %}
 </p>
 <p>
-<a href="{% url 'forum:article_create' %}">Add an Article</a>
+<a href="{% url 'forum:article_create' %}">Add a discussion</a>
 
 </p>
 {% endblock %}
