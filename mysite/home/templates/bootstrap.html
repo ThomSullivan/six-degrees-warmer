@@ -10,119 +10,26 @@
     crossorigin="anonymous"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
 
-.navbar {
-  overflow: hidden;
+<link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}">
 
-  background-color: #333;
-}
-
-.navbar a {
-  float: left;
-  font-size: 16px;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
-
-.dropdown {
-  float: left;
-  overflow: hidden;
-  right : 0;
-}
-
-.dropdown .dropbtn {
-  font-size: 16px;
-  border: none;
-  outline: none;
-  color: white;
-  padding: 14px 16px;
-  background-color: inherit;
-  font-family: inherit;
-  margin: 0;
-  right : 0;
-
-}
-
-.navbar a:hover, .dropdown:hover .dropbtn {
-  background-color: black;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-  right : 0;
-}
-
-.dropdown-content a {
-  float: none;
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  text-align: center;
-  font-size:1em;
-
-}
-
-.dropdown-content a:hover {
-  background-color: #ddd;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-#grav {
-    width: auto;
-    height: 42px;
-  padding: 2px 5px 0px 0px;
-    border-radius:8px;
-}
-.logout {
-    display:block;
-
-  padding: 12px 16px;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-  right : 0;
-  font-size:1em;
-}
-.logout:hover {
-    background-color: #ddd;
-}
-</style>
 <title>Six Degrees of Bacon</title>
 <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="img/ico "/>
 </head>
-<body>
+<body class="body">
 
 
 
 
 <div class="navbar">
   <a href='/'>Home</a>
-  <a href='/forum'>Forum</a>
+
   <a href='/topten'>Top Ten</a>
   <a href='/statistics'>Statistics</a>
   {% if user.is_authenticated %}
 <div class="dropdown" style='float:right;'>
   <button class="dropbtn">
-      {% if  user.socialaccount_set.all.0.get_avatar_url  %}
-     <img  id='grav' src="{{ user.socialaccount_set.all.0.get_avatar_url }}"/>
-     {% else%}
-     <img id='grav' src="{{ user|gravatar:60 }}"/>
-     {% endif %}
+      Account
   </button>
   <div class="dropdown-content">
      <a href='/user/{{user.id}}'>Profile</a>
@@ -152,6 +59,8 @@ body {
 
 
 {% endblock %}
-
+<div class="footer">
+  <p>All data and images provided by <a href='https://www.themoviedb.org/'><img class='footer_image' src="{% static 'img/tmdb1.svg' %}"></a></p>
+</div>
 </body>
 </html>

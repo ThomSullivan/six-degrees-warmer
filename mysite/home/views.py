@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from .models import Profile
 from routes.models import Person, Step
 from django.db.models import Count
-
+from routes.views import get_person_info, get_movie_info
 register = template.Library()
 
 class ProfileDetailVeiw(OwnerDetailView):
@@ -36,24 +36,30 @@ def top_ten(self):
     q1 = q1.order_by('-fav_count')[:10]
     ctx = {'person_list' : [] }
     counter = 1
-    for object in q1:
-            url = 'https://api.themoviedb.org/3/person/{}?api_key={}'.format(object.name, TMDB_API_KEY)
-            details = requests.get(url)
-            instance = details.json()
-            ctx['person_list'].append((instance,object.id,counter))
-            counter+=1
+    for x in q1:
+        if x.real_name == '':
+            q = x.name
+            info = get_person_info(q)
+            x.real_name = info[0]
+            x.img_path = info[1]
+            x.save()
+
+        ctx['person_list'].append((x.real_name,x.img_path,x.id,counter))
+        counter+=1
     return render(self, 'home/topten.html', ctx)
 
 def statistics(self):
     total = Person.objects.count()
-    info = Step.objects.values('next_step').annotate(c=Count('next_step')).order_by('-c').exclude(next_step=2469)[:10]
+    q = Step.objects.values('next_step').annotate(c=Count('next_step')).order_by('-c').exclude(next_step=2469)[:10]
     ten_list = []
-    for item in info:
-        object = Person.objects.get(pk=item['next_step'])
-        url = 'https://api.themoviedb.org/3/person/{}?api_key={}'.format(object.name, TMDB_API_KEY)
-        details = requests.get(url)
-        instance = details.json()
-        ten_list.append((instance['name'],instance['profile_path'],object.id,item['c']))
+    for item in q:
+        x = Person.objects.get(id=item['next_step'])
+        if x.real_name == '':
+            info = get_person_info(x.name)
+            x.real_name = info[0]
+            ximg_path = info[1]
+            x.save()
+        ten_list.append((x.real_name, x.img_path, x.id, item['c']))
     ctx = {'total':total, 'ten_list':ten_list}
     return render(self, 'home/statistics.html', ctx)
 

@@ -10,4 +10,5 @@ urlpatterns = [
     path('user/<int:pk>/',   ProfileDetailVeiw.as_view(template_name='home/profile.html'), name='profile'),
     path('topten/', top_ten, name='topten'),
     path('statistics/', statistics, name='statistics'),
+    path('explain/', TemplateView.as_view(template_name='home/explain.html'), name='explain')
 ]

@@ -6,6 +6,6 @@ from django.contrib.auth.models import User
 class Profile(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     favorite_bacon = models.TextField(null=True, default='')
-
+    longest = models.IntegerField(default='0')
     def __str__(self):
         return str(self.user)
