@@ -21,7 +21,7 @@ def run():
     for row in reader:
         print(row[0])
         p = Person(name=row[0])
-        p.bacon_number='5'
+        p.bacon_number='6'
         p.save()
         m = Movie(title=row[2])
         m.save()

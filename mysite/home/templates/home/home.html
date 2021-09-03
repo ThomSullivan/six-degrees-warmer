@@ -8,19 +8,29 @@
 .p {
     font-size:2em;
 }
-
+.error {
+    color:red;
+}
     </style>
 <div class='Center'>
 <p class='p'>
     Six Degrees of Bacon
+
 </p>
-<form action="routes/search/" method="get" >
 
+{% if error  %}
 
+    <form action="" method="get" >
+        <input id="" type="str" name="search" placeholder='Search...' >
+        <input type="submit" value="search">
+    </form>
+    <p class = 'error'>Sorry seems we couldn't find that person.</p>
+{% else %}
+    <form action="routes/search/" method="get" >
     <input id="" type="str" name="search" placeholder='Search...' >
     <input type="submit" value="search">
-
-</form>
+    </form>
+{% endif %}
 <p>What is this crazy thing?<a href='/explain/'>Find out here.</a></p>
 </div>
 {% endblock %}

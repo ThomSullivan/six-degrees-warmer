@@ -57,11 +57,20 @@ def statistics(self):
         if x.real_name == '':
             info = get_person_info(x.name)
             x.real_name = info[0]
-            ximg_path = info[1]
+            x.img_path = info[1]
             x.save()
         ten_list.append((x.real_name, x.img_path, x.id, item['c']))
-    ctx = {'total':total, 'ten_list':ten_list}
+    q = Person.objects.values('bacon_number').annotate(c=Count('bacon_number'))
+    ctx = {'total':total, 'ten_list':ten_list, 'bacon_numbers':q}
     return render(self, 'home/statistics.html', ctx)
+
+def champions(self):
+    q = Profile.objects.all()
+    q = q.order_by('-longest')[:10]
+    ctx = {'champ_list':[]}
+    for item in q:
+        ctx['champ_list'].append((item.user.first_name, item.longest))
+    return render(self, 'home/champions.html', ctx)
 
 # return only the URL of the gravatar
 # TEMPLATE USE:  {{ email|gravatar_url:150 }}

@@ -9,7 +9,8 @@ from django.views.generic import DetailView
 from .owner import OwnerDetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
-
+from home.models import Profile
+from django.contrib.auth.models import User
 
 def get_person_info(name):
     details = 'https://api.themoviedb.org/3/person/{}?api_key={}'.format(name, TMDB_API_KEY)
@@ -48,7 +49,7 @@ class ResultDetailView(OwnerDetailView):
                 x.img_path = info[1]
                 x.save()
             # get a step object as y using x object as a parameter
-            person = (x.name, x.real_name, x.img_path)
+            person = (x.name, x.real_name, x.img_path,x.bacon_number)
             y = Step.objects.get(person=x)
             if y.movie.real_title == '':
                 q = y.movie.title
@@ -73,6 +74,15 @@ class ResultDetailView(OwnerDetailView):
             favorites = [ row['pk'] for row in rows ]
             ctx['favorites'] = favorites
 
+            current = Person.objects.get(id=pk)
+            profile = Profile.objects.get(user=request.user.id)
+            if current.bacon_number > profile.longest:
+                profile.longest = current.bacon_number
+                profile.save()
+                ctx['record']=True
+
+
+
         return render(request, self.template_name, ctx)
 
 def search_pk(request):
@@ -82,7 +92,10 @@ def search_pk(request):
     try:
         person_id = object['results'][0]['id']
     except:
-        return redirect('/')
+        ctx = {'error':True}
+        return render(request, 'home/home.html', ctx)
+    if person_id == 4724:
+        return redirect('/routes/bacon')
     try:
         x = Person.objects.get(name=person_id)
     except:

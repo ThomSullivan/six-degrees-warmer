@@ -11,4 +11,5 @@ urlpatterns = [
         views.AddFavoriteView.as_view(), name='person_favorite'),
     path('result/<int:pk>/unfavorite/',
         views.DeleteFavoriteView.as_view(), name='person_unfavorite'),
+    path('bacon/', TemplateView.as_view(template_name='routes/bacon.html'))
 ]

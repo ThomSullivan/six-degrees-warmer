@@ -6,7 +6,7 @@ bacon_id = 4724
 class Person(models.Model):
     name = models.IntegerField()
     real_name = models.CharField(max_length=100, default='')
-    img_path = models.CharField(max_length=100, default='')
+    img_path = models.CharField(max_length=100, default='', null=True)
     bacon_number = models.IntegerField(null=True, default='3')
     favorites = models.ManyToManyField(settings.AUTH_USER_MODEL,
         through='Fav', related_name='favorite_people')
@@ -14,7 +14,7 @@ class Person(models.Model):
 class Movie(models.Model):
     title = models.IntegerField()
     real_title = models.CharField(max_length=100, default='')
-    img_path = models.CharField(max_length=100, default='')
+    img_path = models.CharField(max_length=100, default='', null=True)
 
 class Step(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE)

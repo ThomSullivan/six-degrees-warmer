@@ -3,7 +3,7 @@ import csv
 from routes.models import Person, Movie, Step
 
 def run():
-    fhand = open('routes/second_degree.csv')
+    fhand = open('routes/fourth_degree.csv')
     print('Open')
     reader = csv.reader(fhand)
 
@@ -20,6 +20,6 @@ def run():
             p = Person.objects.get(name=row[0])
         except:
             p = Person.objects.filter(name=row[0])[0]
-        p.bacon_number='2'
+        p.bacon_number='4'
         p.save()
 
